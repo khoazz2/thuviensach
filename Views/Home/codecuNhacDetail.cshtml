@@ -1,0 +1,60 @@
+﻿@model doanchuyennganh.Models.Nhac
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>@Model.Ten - Chi tiết nhạc</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/music-detail.css">
+</head>
+
+<body>
+    <!-- Thanh điều hướng -->
+    <nav class="navbar navbar-dark navbar-expand-lg sticky-top bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="@Url.Action("Music", "Home")">Quay lại danh sách nhạc</a>
+        </div>
+    </nav>
+
+    <!-- Phần nội dung chi tiết -->
+    <section class="music-detail-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <!-- Hiển thị ảnh bìa nhạc -->
+                    <img src="@Url.Content("~/img/" + Model.Anhbia)" alt="@Model.Ten" class="img-fluid">
+                </div>
+                <div class="col-md-8">
+                    <div class="music-info">
+                        <!-- Thông tin nhạc -->
+                        <h1>@Model.Ten</h1>
+                        <h4>@Model.Tacgia</h4>
+                        <p><strong>Thể loại:</strong> @Model.TheloaiNhacs.Ten</p>
+                        <div class="description">
+                            <h5>Mô tả:</h5>
+                            <p>@Model.Mota</p>
+                        </div>
+
+                        <!-- Trình phát nhạc -->
+                        <audio controls class="w-100 mt-3" src="@Url.Content(Model.Duongdan)" type="audio/mp3">
+                            Trình duyệt của bạn không hỗ trợ phát nhạc.
+                        </audio>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <script src="~/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>

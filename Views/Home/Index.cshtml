@@ -1,0 +1,369 @@
+﻿@{
+    ViewData["Title"] = "BookKC";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AudioBook</title>
+    <link rel="stylesheet" href="~/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kaushan+Script&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway&amp;display=swap">
+    <link rel="stylesheet" href="~/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="~/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="~/fonts/material-icons.min.css">
+    <link rel="stylesheet" href="~/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="~/css/-Login-form-Page-BS4-.css">
+    <link rel="stylesheet" href="~/css/Account-setting-or-edit-profile.css">
+    <link rel="stylesheet" href="~/css/book.css">
+    <link rel="stylesheet" href="~/css/Brands.css">
+    <link rel="stylesheet" href="~/css/Footer-Clean.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="~/css/index.css">
+    <link rel="stylesheet" href="~/css/Login-Form-Dark.css">
+    <link rel="stylesheet" href="~/css/Music.css">
+    <link rel="stylesheet" href="~/css/player.css">
+    <link rel="stylesheet" href="~/css/podcast.css">
+    <link rel="stylesheet" href="~/css/Pretty-Footer.css">
+    <link rel="stylesheet" href="~/css/Projects-Horizontal.css">
+    <link rel="stylesheet" href="~/css/Ranking.css">
+    <link rel="stylesheet" href="~/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="~/css/Search.css">
+</head>
+
+<body id="page-top" data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="54">
+    <h1 class="text-center text-white d-none d-lg-block site-heading" style="margin: 30px 0px;margin-top: 0px;margin-bottom: 0px;"><span class="text-primary site-heading-upper mb-3" style="margin: 0px;margin-bottom: 0px;color: rgba(47,23,15,0.65);">BOOKKC<a href="Book.cshtml"></a></span><span class="site-heading-lower" style="color: rgba(47,23,15,0.88);"></span></h1>
+    <nav class="navbar navbar-dark navbar-expand-lg sticky-top bg-dark" id="mainNav" style="opacity: 1;">
+        <div class="container">
+            <button data-bs-toggle="collapse" data-bs-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav me-auto text-uppercase">
+                    <li class="nav-item"><a class="nav-link" href="#services">Dịch Vụ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#portfolio">Danh Mục</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#team">Đội Ngũ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Liên Hệ</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Book">
+                            <i class="fa fa-book tada animated infinite bookshort fa-2x"></i>
+                        </a>
+                    </li>
+                </ul>
+                <!-- Form tìm kiếm -->
+                <!-- Form Tìm kiếm -->
+              <!--  <form method="post" asp-action="Search" asp-controller="Home" id="searchForm">
+                    <div class="input-group">
+                        <input class="form-control" type="text" name="searchInput" placeholder="Enter book name or author" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit" id="searchButton">Search</button>
+                    </div>
+                </form>
+
+                -->
+
+
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-section clearfix">
+        <div class="container">
+            <div class="intro">
+                <img class="img-fluid intro-img mb-3 mb-lg-0 rounded" src="~/img/pexels-aline-viana-prado-2465877.jpg">
+                <div class="text-center intro-text p-5 rounded bg-faded" style="color: rgb(248,250,251);background: #2f170fcf;">
+                    <h2 class="section-heading mb-4">
+                        <span class="section-heading-upper">THƯ VIỆN ĐƠN GIẢN</span>
+                        <span class="text-uppercase section-heading-lower">hãy đến trải nghiệm</span>
+                    </h2>
+                    <p class="mb-3">
+                        <br>Chào mừng bạn đến với thư viện của chúng tôi, nơi mà tri thức và sự sáng tạo hòa quyện. Tại đây, bạn sẽ tìm thấy những cuốn sách quý giá, mở ra cánh cửa đến với thế giới của tri thức vô tận. Hãy để chúng tôi đồng hành cùng bạn trên hành trình khám phá và học hỏi.<br><br>
+                    </p>
+                    <div class="mx-auto intro-button">
+                        <a class="btn btn-primary text-uppercase btn-xl" role="button" href="#portfolio">Tham quan ngay!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="text-uppercase section-heading">Dịch Vụ Của Chúng Tôi</h2>
+                    <h3 class="text-muted section-subheading">Chúng tôi cung cấp giải pháp phù hợp với nhu cầu của bạn.</h3>
+                </div>
+            </div>
+            <div class="row text-center justify-content-center">
+                <!-- Dịch vụ 1 -->
+                <div class="col-md-5 colservices">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x" style="color: #6c757d;"></i>
+                        <i class="fa fa-gift fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="section-heading">Hoàn Toàn Miễn Phí</h4>
+                    <p class="text-muted text-justify">Truy cập không giới hạn vào kho sách phong phú mà không tốn bất kỳ chi phí nào.</p>
+                </div>
+
+                <!-- Dịch vụ 2 -->
+                <div class="col-md-5 colservices">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x" style="color: #28a745;"></i>
+                        <i class="fa fa-desktop fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="section-heading">Giao Diện Thân Thiện</h4>
+                    <p class="text-muted text-justify">Giao diện được thiết kế đơn giản và trực quan, giúp bạn dễ dàng điều hướng và chọn sách chỉ với vài cú nhấp chuột.</p>
+                </div>
+
+                <!-- Dịch vụ 3 -->
+                <div class="col-md-5 colservices">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x" style="color: #ffc107;"></i>
+                        <i class="fa fa-book fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="section-heading">Đa Dạng Thể Loại</h4>
+                    <p class="text-muted text-justify">Từ tiểu thuyết đến khoa học, chúng tôi đáp ứng mọi nhu cầu đọc sách của bạn.</p>
+                </div>
+
+                <!-- Dịch vụ 4 -->
+                <div class="col-md-5 colservices">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x" style="color: #17a2b8;"></i>
+                        <i class="fa fa-globe fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="section-heading">Truy Cập Tiện Lợi</h4>
+                    <p class="text-muted text-justify">Truy cập sách mọi lúc, mọi nơi với thiết bị kết nối internet, mang lại trải nghiệm tiện lợi hơn bao giờ hết.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="portfolio">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="text-uppercase section-heading">Danh Mục</h2>
+                   <!-- <h3 class="text-muted section-subheading">Heading</h3> -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-4 portfolio-item">
+                    <a class="portfolio-link" asp-area="" asp-controller="Home" asp-action="Book">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content"><i class="fa fa-plus fa-3x"></i></div>
+                        </div><img class="img-fluid" src="~/img/coffee-g83246ac6d_1280.jpg">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Sách</h4>
+                        <p class="text-muted">Paragraph</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 portfolio-item">
+                    <a class="portfolio-link" asp-area="" asp-controller="Home" asp-action="Story">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content"><i class="fa fa-plus fa-3x"></i></div>
+                        </div><img class="img-fluid" src="~/img/Portfolio/pexels-tima-miroshnichenko-5951640.jpg">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Truyện</h4>
+                        <p class="text-muted">Paragraph</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 portfolio-item">
+                    <a class="portfolio-link" asp-area="" asp-controller="Home" asp-action="Podcast">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content"><i class="fa fa-plus fa-3x"></i></div>
+                        </div><img class="img-fluid" src="~/img/Portfolio/pexels-jean-balzan-682082.jpg">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Podcast</h4>
+                        <p class="text-muted">Paragraph</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 portfolio-item">
+                    <a class="portfolio-link" asp-area="" asp-controller="Home" asp-action="Music">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content"><i class="fa fa-plus fa-3x"></i></div>
+                        </div><img class="img-fluid" src="~/img/Portfolio/pexels-elviss-railijs-bitāns-1389429.jpg">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Nhạc</h4>
+                        <p class="text-muted">Paragraph</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 portfolio-item">
+                    <a class="portfolio-link" asp-area="" asp-controller="Home" asp-action="News">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content"><i class="fa fa-plus fa-3x"></i></div>
+                        </div><img class="img-fluid" src="~/img/Portfolio/pexels-madison-inouye-1577882.jpg">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Báo</h4>
+                        <p class="text-muted">Paragraph</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 portfolio-item">
+                    <a class="portfolio-link" asp-area="" asp-controller="Home" asp-action="Ranking">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content"><i class="fa fa-plus fa-3x"></i></div>
+                        </div><img class="img-fluid" src="~/img/Portfolio/pexels-lorenzo-241544.jpg">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Bảng xếp hạng</h4>
+                        <p class="text-muted">Paragraph</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="team">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="text-uppercase section-heading">ĐỘI NGŨ</h2>
+                    <h3 class="text-muted section-subheading">Heading</h3>
+                </div>
+            </div>
+            <!--            <div class="row">-->
+            <!--                <div class="col-sm-6 col-md-4">-->
+            <div class="row justify-content-center">
+                <div class="col-sm-6 col-md-4 text-center">
+                    <div class="team-member">
+                        <img class="rounded-circle mx-auto" src="~/img/Team/z5167101139352_8e68a9ed3954bf821e9055380e123317.jpg">
+                        <h4 class="Khoa" style="font-size: 21px;">Nguyễn Sỹ Đăng Khoa</h4>
+                        <p class="text-muted" style="margin-bottom: 10px;">Lead&nbsp;Developer<br></p>
+                        <ul class="list-inline social-buttons">
+                            <li class="list-inline-item">
+                                <a href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.00977 5.83789C3.00977 5.28561 3.45748 4.83789 4.00977 4.83789H20C20.5523 4.83789 21 5.28561 21 5.83789V17.1621C21 18.2667 20.1046 19.1621 19 19.1621H5C3.89543 19.1621 3 18.2667 3 17.1621V6.16211C3 6.11449 3.00333 6.06765 3.00977 6.0218V5.83789ZM5 8.06165V17.1621H19V8.06199L14.1215 12.9405C12.9499 14.1121 11.0504 14.1121 9.87885 12.9405L5 8.06165ZM6.57232 6.80554H17.428L12.7073 11.5263C12.3168 11.9168 11.6836 11.9168 11.2931 11.5263L6.57232 6.80554Z" fill="currentColor"></path>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.facebook.com/dk723/" target="_blank" rel="noopener noreferrer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none">
+                                        <path d="M9.19795 21.5H13.198V13.4901H16.8021L17.198 9.50977H13.198V7.5C13.198 6.94772 13.6457 6.5 14.198 6.5H17.198V2.5H14.198C11.4365 2.5 9.19795 4.73858 9.19795 7.5V9.50977H7.19795L6.80206 13.4901H9.19795V21.5Z" fill="currentColor"></path>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="tel:+84838407070" target="_blank">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none">
+                                        <path d="M22 12C22 10.6868 21.7413 9.38647 21.2388 8.1731C20.7362 6.95996 19.9997 5.85742 19.0711 4.92896C18.1425 4.00024 17.0401 3.26367 15.8268 2.76123C14.6136 2.25854 13.3132 2 12 2V4C13.0506 4 14.0909 4.20703 15.0615 4.60889C16.0321 5.01099 16.914 5.60034 17.6569 6.34326C18.3997 7.08594 18.989 7.96802 19.391 8.93848C19.7931 9.90918 20 10.9495 20 12H22Z" fill="currentColor"></path>
+                                        <path d="M2 10V5C2 4.44775 2.44772 4 3 4H8C8.55228 4 9 4.44775 9 5V9C9 9.55225 8.55228 10 8 10H6C6 14.4182 9.58173 18 14 18V16C14 15.4478 14.4477 15 15 15H19C19.5523 15 20 15.4478 20 16V21C20 21.5522 19.5523 22 19 22H14C7.37259 22 2 16.6274 2 10Z" fill="currentColor"></path>
+                                        <path d="M17.5433 9.70386C17.8448 10.4319 18 11.2122 18 12H16.2C16.2 11.4485 16.0914 10.9023 15.8803 10.3928C15.6692 9.88306 15.3599 9.42017 14.9698 9.03027C14.5798 8.64014 14.1169 8.33081 13.6073 8.11963C13.0977 7.90869 12.5515 7.80005 12 7.80005V6C12.7879 6 13.5681 6.15527 14.2961 6.45679C15.024 6.7583 15.6855 7.2002 16.2426 7.75732C16.7998 8.31445 17.2418 8.97583 17.5433 9.70386Z" fill="currentColor"></path>
+                                    </svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4">
+                    <div class="team-member">
+                        <img class="rounded-circle mx-auto" src="~/img/Team/z5913009155488_c860221ad0274308a7d3b0a49521ccb5.jpg">
+                        <h4 style="font-size: 21px;">Nguyễn Ngô Anh Cường</h4>
+                        <p class="text-muted" style="margin-bottom: 10px;">Lead Designer</p>
+                        <ul class="list-inline social-buttons">
+                            <li class="list-inline-item">
+                                <a href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.00977 5.83789C3.00977 5.28561 3.45748 4.83789 4.00977 4.83789H20C20.5523 4.83789 21 5.28561 21 5.83789V17.1621C21 18.2667 20.1046 19.1621 19 19.1621H5C3.89543 19.1621 3 18.2667 3 17.1621V6.16211C3 6.11449 3.00333 6.06765 3.00977 6.0218V5.83789ZM5 8.06165V17.1621H19V8.06199L14.1215 12.9405C12.9499 14.1121 11.0504 14.1121 9.87885 12.9405L5 8.06165ZM6.57232 6.80554H17.428L12.7073 11.5263C12.3168 11.9168 11.6836 11.9168 11.2931 11.5263L6.57232 6.80554Z" fill="currentColor"></path>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.facebook.com/se7enxcwgg" target="_blank" rel="noopener noreferrer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none">
+                                        <path d="M9.19795 21.5H13.198V13.4901H16.8021L17.198 9.50977H13.198V7.5C13.198 6.94772 13.6457 6.5 14.198 6.5H17.198V2.5H14.198C11.4365 2.5 9.19795 4.73858 9.19795 7.5V9.50977H7.19795L6.80206 13.4901H9.19795V21.5Z" fill="currentColor"></path>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none">
+                                        <path d="M22 12C22 10.6868 21.7413 9.38647 21.2388 8.1731C20.7362 6.95996 19.9997 5.85742 19.0711 4.92896C18.1425 4.00024 17.0401 3.26367 15.8268 2.76123C14.6136 2.25854 13.3132 2 12 2V4C13.0506 4 14.0909 4.20703 15.0615 4.60889C16.0321 5.01099 16.914 5.60034 17.6569 6.34326C18.3997 7.08594 18.989 7.96802 19.391 8.93848C19.7931 9.90918 20 10.9495 20 12H22Z" fill="currentColor"></path>
+                                        <path d="M2 10V5C2 4.44775 2.44772 4 3 4H8C8.55228 4 9 4.44775 9 5V9C9 9.55225 8.55228 10 8 10H6C6 14.4182 9.58173 18 14 18V16C14 15.4478 14.4477 15 15 15H19C19.5523 15 20 15.4478 20 16V21C20 21.5522 19.5523 22 19 22H14C7.37259 22 2 16.6274 2 10Z" fill="currentColor"></path>
+                                        <path d="M17.5433 9.70386C17.8448 10.4319 18 11.2122 18 12H16.2C16.2 11.4485 16.0914 10.9023 15.8803 10.3928C15.6692 9.88306 15.3599 9.42017 14.9698 9.03027C14.5798 8.64014 14.1169 8.33081 13.6073 8.11963C13.0977 7.90869 12.5515 7.80005 12 7.80005V6C12.7879 6 13.5681 6.15527 14.2961 6.45679C15.024 6.7583 15.6855 7.2002 16.2426 7.75732C16.7998 8.31445 17.2418 8.97583 17.5433 9.70386Z" fill="currentColor"></path>
+                                    </svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="text-uppercase section-heading">LIÊN HỆ VỚI CHÚNG TÔI</h2>
+                    <h3 class="text-muted section-subheading">Heading</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <form id="contactForm" name="contactForm" novalidate="novalidate">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3"><input class="form-control" type="text" id="name" placeholder="Your Name *" required=""><small class="form-text text-danger flex-grow-1 help-block lead"></small></div>
+                                <div class="form-group mb-3"><input class="form-control" type="email" id="email" required="" placeholder="Your Email *"><small class="form-text text-danger help-block lead"></small></div>
+                                <div class="form-group mb-3"><input class="form-control" type="tel" placeholder="Your Phone *" required=""><small class="form-text text-danger help-block lead"></small></div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3"><textarea class="form-control" id="name" placeholder="Your Message *" required=""></textarea><small class="form-text text-danger help-block lead"></small></div>
+                            </div>
+                            <div class="w-100"></div>
+                            <div class="col-lg-12 text-center">
+                                <div id="success"></div><button class="btn btn-primary btn-xl text-uppercase" id="sendMessageButton" type="submit">gửi</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="row">
+            <div class="col-sm-6 col-md-4 footer-navigation">
+                <p class="links"><a href="#page-top">Home</a><strong> · </strong><a href="#services">Services</a><strong> · </strong><a href="#portfolio">Portfolio</a><strong> · </strong><a href="#team">About</a><strong>&nbsp;· </strong><a href="#contact">Contact</a></p>
+                <p class="company-name">BookKC</p>
+            </div>
+            <div class="col-sm-6 col-md-4 footer-contacts">
+                <div>
+                    <span class="fa fa-map-marker footer-contacts-icon"> </span>
+                    <p><span class="new-line-span">University of Information Technology</span>Ho Chi Minh, Viet Nam</p>
+                </div>
+                <div>
+                    <i class="fa fa-phone footer-contacts-icon"></i>
+                    <p class="footer-center-info email text-start"> +84</p>
+                </div>
+                <div>
+                    <i class="fa fa-envelope footer-contacts-icon"></i>
+                    <p> <a href="#" target="_blank">support@company.com</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 footer-about">
+                <h4>About the website</h4>
+                <p> Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet. </p>
+                <div class="social-links social-icons"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-linkedin"></i></a><a href="#"><i class="fa fa-github"></i></a></div>
+            </div>
+        </div>
+    </footer>
+    <script src="~/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/js/bs-init.js"></script>
+    <script src="~/js/agency.js"></script>
+    <script src="~/js/book-lists.js"></script>
+    <script src="~/js/rating.js"></script>
+    <script src="~/js/script.js"></script>
+    <script src="~/js/Search.js"></script>
+</body>
+
+</html>

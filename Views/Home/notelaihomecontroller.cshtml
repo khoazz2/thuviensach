@@ -1,0 +1,86 @@
+﻿using System.Diagnostics;
+using doanchuyennganh.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using doanchuyennganh.Data;
+
+namespace doanchuyennganh.Controllers
+{
+    public class HomeController : Controller
+    {
+        private readonly ILogger<HomeController>
+    _logger;
+    private readonly ApplicationDbContext _context;
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    public HomeController(ILogger<HomeController>
+        logger, ApplicationDbContext context, IHttpClientFactory httpClientFactory)
+        {
+        _logger = logger;
+        _context = context;
+        _httpClientFactory = httpClientFactory;
+        }
+
+        // Action mặc định cho trang Index
+        public IActionResult Index()
+        {
+        return View();
+        }
+
+        // Action tìm kiếm sách
+        [HttpPost]
+        public async Task<IActionResult>
+            Search(string bookSearchInput)
+            {
+            if (string.IsNullOrEmpty(bookSearchInput))
+            {
+            // Trả về tất cả sách nếu không có từ khóa tìm kiếm
+            var allBooks = await _context.Saches.ToListAsync();
+
+            // Kiểm tra null trước khi trả về dữ liệu
+            if (allBooks == null || !allBooks.Any())
+            {
+            return NotFound("Không có sách nào trong cơ sở dữ liệu.");
+            }
+
+            return View("Search", allBooks);
+            }
+
+            // Tìm kiếm sách trong cơ sở dữ liệu
+            var searchResults = await _context.Saches
+            .Where(s => s.Ten.Contains(bookSearchInput))
+            .Include(s => s.Theloai)
+            .ToListAsync();
+
+            // Kiểm tra nếu không tìm thấy sách
+            if (searchResults == null || !searchResults.Any())
+            {
+            return NotFound("Không tìm thấy sách.");
+            }
+
+            return View("Search", searchResults);
+            }
+
+
+            // Các action khác không thay đổi
+            public IActionResult Book() => View();
+            public IActionResult Music() => View();
+            public IActionResult News() => View();
+            public IActionResult Player() => View();
+            public IActionResult Podcast() => View();
+            public IActionResult Profile() => View();
+            public IActionResult Ranking() => View();
+            public IActionResult signup() => View();
+            public IActionResult Story() => View();
+            public IActionResult Privacy() => View();
+
+            [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+            public IActionResult Error()
+            {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
+            }
+            }

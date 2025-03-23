@@ -1,0 +1,522 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Trình Xem Sách PDF</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #f0f2f5, #dfe3e8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .book {
+            position: relative;
+            width: 1200px;
+            height: 800px;
+            perspective: 1500px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background: #fff;
+        }
+
+        .page-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+
+        .page {
+            width: 50%;
+            height: 100%;
+            background: white;
+            position: relative;
+            transform-origin: center;
+            transition: transform 0.6s;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+        }
+
+            .page.left {
+                transform-origin: right;
+            }
+
+            .page.right {
+                transform-origin: left;
+            }
+
+        .page-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        canvas {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            position: absolute;
+            border-radius: 5px;
+        }
+
+        .highlight {
+            position: absolute;
+            background: rgba(255, 255, 0, 0.5);
+            pointer-events: auto;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 20px;
+            font-size: 14px;
+            color: #666;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .controls, .zoom-controls {
+            position: absolute;
+            top: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .controls {
+            left: 20px;
+        }
+
+        .zoom-controls {
+            right: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+            button:hover {
+                background: #0056b3;
+                transform: translateY(-3px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            }
+
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @@keyframes spin {
+            0%
+
+        {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+
+        }
+
+        .highlight-list-container {
+            position: absolute;
+            top: 100px;
+            right: 20px;
+            width: 260px;
+            max-height: 300px;
+            overflow-y: auto;
+            background: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+            .highlight-list-container h3 {
+                margin: 0;
+                font-size: 18px;
+                text-align: center;
+                color: #333;
+            }
+
+            .highlight-list-container ul {
+                list-style: none;
+                padding: 0;
+                margin: 10px 0 0 0;
+            }
+
+            .highlight-list-container li {
+                padding: 8px;
+                cursor: pointer;
+                border-bottom: 1px solid #eee;
+                transition: background 0.2s;
+            }
+
+                .highlight-list-container li:hover {
+                    background: #f0f8ff;
+                }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <div class="controls">
+        <button id="highlight-btn">Highlight</button>
+        <button id="toggle-view-btn">Chế độ 1 trang</button>
+    </div>
+
+    <div class="zoom-controls">
+        <button id="zoom-in-btn">+</button>
+        <button id="zoom-out-btn">-</button>
+    </div>
+
+    <div class="highlight-list-container">
+        <h3>Danh sách Highlights</h3>
+        <ul id="highlight-list"></ul>
+    </div>
+
+    <div class="book" id="book"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        class BookViewer {
+            constructor(pdfUrl) {
+                this.pdfUrl = pdfUrl;
+                this.pdfDoc = null;
+                this.currentPage = 1;
+                this.isLoading = true;
+                this.isHighlighting = false;
+                this.isSinglePageView = false;
+                this.zoomLevel = 1.0;
+                this.bookId = this.generateBookId(pdfUrl);
+                this.highlights = this.loadHighlights() || {};
+                this.init();
+            }
+
+            generateBookId(pdfUrl) {
+                return btoa(pdfUrl).replace(/=/g, '');
+            }
+
+            async init() {
+                try {
+                    this.pdfDoc = await pdfjsLib.getDocument(this.pdfUrl).promise;
+                    document.getElementById('loading').style.display = 'none';
+                    this.isLoading = false;
+
+                    const lastPage = localStorage.getItem(`${this.bookId}_lastViewedPage`);
+                    if (lastPage) {
+                        const continueReading = confirm(`Bạn đã xem ở trang ${lastPage}. Bạn có muốn đọc tiếp trang đó không?`);
+                        if (continueReading) {
+                            this.currentPage = parseInt(lastPage, 10);
+                        }
+                    }
+
+                    this.renderSpread(this.currentPage);
+                    this.setupHighlightControls();
+                } catch (error) {
+                    console.error('Error loading PDF:', error);
+                    document.getElementById('loading').innerHTML = 'Error loading PDF';
+                }
+            }
+
+            async renderSpread(startPage) {
+                if (this.isLoading) return;
+
+                const book = document.getElementById('book');
+                book.innerHTML = '';
+
+                const container = document.createElement('div');
+                container.className = 'page-container';
+
+                const leftPage = document.createElement('div');
+                leftPage.className = 'page left';
+                const leftContent = document.createElement('div');
+                leftContent.className = 'page-content';
+                leftContent.innerHTML = `
+                    <canvas id="canvas-${startPage}"></canvas>
+                    <div class="page-number">${startPage}</div>
+                `;
+                leftPage.appendChild(leftContent);
+
+                container.appendChild(leftPage);
+
+                if (!this.isSinglePageView && startPage + 1 <= this.pdfDoc.numPages) {
+                    const rightPage = document.createElement('div');
+                    rightPage.className = 'page right';
+                    const rightContent = document.createElement('div');
+                    rightContent.className = 'page-content';
+                    rightContent.innerHTML = `
+                        <canvas id="canvas-${startPage + 1}"></canvas>
+                        <div class="page-number">${startPage + 1}</div>
+                    `;
+                    rightPage.appendChild(rightContent);
+                    container.appendChild(rightPage);
+                }
+
+                book.appendChild(container);
+
+                await this.renderPage(startPage, `canvas-${startPage}`);
+                if (!this.isSinglePageView && startPage + 1 <= this.pdfDoc.numPages) {
+                    await this.renderPage(startPage + 1, `canvas-${startPage + 1}`);
+                }
+
+                this.renderHighlights(startPage);
+                if (!this.isSinglePageView && startPage + 1 <= this.pdfDoc.numPages) {
+                    this.renderHighlights(startPage + 1);
+                }
+
+                this.setupPageTurning(container, startPage);
+
+                localStorage.setItem(`${this.bookId}_lastViewedPage`, startPage);
+            }
+
+            async renderPage(pageNum, canvasId) {
+                try {
+                    const page = await this.pdfDoc.getPage(pageNum);
+                    const canvas = document.getElementById(canvasId);
+                    const context = canvas.getContext('2d');
+
+                    const viewport = page.getViewport({ scale: this.zoomLevel });
+                    const scale = this.zoomLevel;
+
+                    const scaledViewport = page.getViewport({ scale });
+                    canvas.width = scaledViewport.width;
+                    canvas.height = scaledViewport.height;
+
+                    await page.render({
+                        canvasContext: context,
+                        viewport: scaledViewport
+                    }).promise;
+                } catch (error) {
+                    console.error(`Error rendering page ${pageNum}:`, error);
+                }
+            }
+
+            renderHighlights(pageNum) {
+                const pageContent = document.querySelector(`#canvas-${pageNum}`).parentElement;
+                if (this.highlights[pageNum]) {
+                    this.highlights[pageNum].forEach(({ left, top, width, height }) => {
+                        const highlight = document.createElement('div');
+                        highlight.className = 'highlight';
+                        highlight.style.left = `${left}px`;
+                        highlight.style.top = `${top}px`;
+                        highlight.style.width = `${width}px`;
+                        highlight.style.height = `${height}px`;
+
+                        highlight.addEventListener('click', () => {
+                            this.highlights[pageNum] = this.highlights[pageNum].filter(h =>
+                                h.left !== left || h.top !== top || h.width !== width || h.height !== height
+                            );
+                            highlight.remove();
+                            this.saveHighlights();
+                            this.renderHighlightList();
+                        });
+
+                        pageContent.appendChild(highlight);
+                    });
+                }
+                this.renderHighlightList();
+            }
+
+            renderHighlightList() {
+                const highlightList = document.getElementById('highlight-list');
+                highlightList.innerHTML = '';
+
+                for (const pageNum in this.highlights) {
+                    this.highlights[pageNum].forEach((highlight, index) => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `Trang ${pageNum}, Highlight ${index + 1}`;
+                        listItem.addEventListener('click', () => {
+                            this.currentPage = parseInt(pageNum, 10);
+                            this.renderSpread(this.currentPage);
+                        });
+                        highlightList.appendChild(listItem);
+                    });
+                }
+            }
+
+            saveHighlights() {
+                localStorage.setItem(`${this.bookId}_pdfHighlights`, JSON.stringify(this.highlights));
+            }
+
+            loadHighlights() {
+                const savedHighlights = localStorage.getItem(`${this.bookId}_pdfHighlights`);
+                return savedHighlights ? JSON.parse(savedHighlights) : {};
+            }
+
+            setupHighlightControls() {
+                const highlightBtn = document.getElementById('highlight-btn');
+                const toggleViewBtn = document.getElementById('toggle-view-btn');
+                const zoomInBtn = document.getElementById('zoom-in-btn');
+                const zoomOutBtn = document.getElementById('zoom-out-btn');
+
+                highlightBtn.addEventListener('click', () => {
+                    this.isHighlighting = !this.isHighlighting;
+                    highlightBtn.textContent = this.isHighlighting ? 'Dừng Highlight' : 'Highlight';
+                });
+
+                toggleViewBtn.addEventListener('click', () => {
+                    this.isSinglePageView = !this.isSinglePageView;
+                    toggleViewBtn.textContent = this.isSinglePageView ? 'Chế độ 2 trang' : 'Chế độ 1 trang';
+                    this.renderSpread(this.currentPage);
+                });
+
+                zoomInBtn.addEventListener('click', () => {
+                    this.zoomLevel = Math.min(3.0, this.zoomLevel + 0.1);
+                    this.renderSpread(this.currentPage);
+                });
+
+                zoomOutBtn.addEventListener('click', () => {
+                    this.zoomLevel = Math.max(0.5, this.zoomLevel - 0.1);
+                    this.renderSpread(this.currentPage);
+                });
+
+                document.addEventListener('mousedown', (e) => {
+                    if (this.isHighlighting && e.target.tagName === 'CANVAS') {
+                        const canvasRect = e.target.getBoundingClientRect();
+                        const pageNum = parseInt(e.target.id.split('-')[1], 10);
+
+                        const highlight = document.createElement('div');
+                        highlight.className = 'highlight';
+                        highlight.style.left = `${e.clientX - canvasRect.left}px`;
+                        highlight.style.top = `${e.clientY - canvasRect.top}px`;
+
+                        const startX = e.clientX;
+                        const startY = e.clientY;
+
+                        const mouseMoveHandler = (moveEvent) => {
+                            highlight.style.width = `${moveEvent.clientX - startX}px`;
+                            highlight.style.height = `${moveEvent.clientY - startY}px`;
+                        };
+
+                        const mouseUpHandler = () => {
+                            document.removeEventListener('mousemove', mouseMoveHandler);
+                            document.removeEventListener('mouseup', mouseUpHandler);
+
+                            const left = parseFloat(highlight.style.left);
+                            const top = parseFloat(highlight.style.top);
+                            const width = parseFloat(highlight.style.width);
+                            const height = parseFloat(highlight.style.height);
+
+                            if (!this.highlights[pageNum]) {
+                                this.highlights[pageNum] = [];
+                            }
+
+                            this.highlights[pageNum].push({ left, top, width, height });
+                            this.saveHighlights();
+                            this.renderHighlightList();
+
+                            highlight.addEventListener('click', () => {
+                                this.highlights[pageNum] = this.highlights[pageNum].filter(h =>
+                                    h.left !== left || h.top !== top || h.width !== width || h.height !== height
+                                );
+                                highlight.remove();
+                                this.saveHighlights();
+                                this.renderHighlightList();
+                            });
+                        };
+
+                        document.addEventListener('mousemove', mouseMoveHandler);
+                        document.addEventListener('mouseup', mouseUpHandler);
+                        e.target.parentElement.appendChild(highlight);
+                    }
+                });
+            }
+
+            setupPageTurning(container, currentPage) {
+                let startX;
+                let isDragging = false;
+
+                const handleMouseDown = (e) => {
+                    if (this.isHighlighting) return;
+                    isDragging = true;
+                    startX = e.clientX;
+                };
+
+                const handleMouseMove = (e) => {
+                    if (!isDragging) return;
+
+                    const deltaX = e.clientX - startX;
+                    const normalizedDelta = deltaX / window.innerWidth;
+
+                    if (deltaX < 0 && currentPage + (this.isSinglePageView ? 1 : 2) <= this.pdfDoc.numPages) {
+                        container.style.transform = `rotateY(${normalizedDelta * -180}deg)`;
+                    } else if (deltaX > 0 && currentPage > 1) {
+                        container.style.transform = `rotateY(${normalizedDelta * 180}deg)`;
+                    }
+                };
+
+                const handleMouseUp = (e) => {
+                    if (!isDragging) return;
+                    isDragging = false;
+
+                    const deltaX = e.clientX - startX;
+
+                    if (deltaX < -100 && currentPage + (this.isSinglePageView ? 1 : 2) <= this.pdfDoc.numPages) {
+                        this.currentPage += this.isSinglePageView ? 1 : 2;
+                        this.renderSpread(this.currentPage);
+                    } else if (deltaX > 100 && currentPage > 1) {
+                        this.currentPage -= this.isSinglePageView ? 1 : 2;
+                        this.renderSpread(this.currentPage);
+                    }
+
+                    container.style.transform = '';
+                };
+
+                container.addEventListener('mousedown', handleMouseDown);
+                document.addEventListener('mousemove', handleMouseMove);
+                document.addEventListener('mouseup', handleMouseUp);
+            }
+        }
+
+        const viewer = new BookViewer('@Url.Content("~/pdfs/" + Model.PdfFilePath)');
+    </script>
+</body>
+</html>

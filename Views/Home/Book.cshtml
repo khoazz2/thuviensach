@@ -1,0 +1,158 @@
+﻿@model doanchuyennganh.ViewModels.BookViewModel
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AudioBook</title>
+    <link rel="stylesheet" href="~/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kaushan+Script&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway&amp;display=swap">
+    <link rel="stylesheet" href="~/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="~/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="~/fonts/material-icons.min.css">
+    <link rel="stylesheet" href="~/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="~/css/-Login-form-Page-BS4-.css">
+    <link rel="stylesheet" href="~/css/Account-setting-or-edit-profile.css">
+    <link rel="stylesheet" href="~/css/book.css">
+    <link rel="stylesheet" href="~/css/Brands.css">
+    <link rel="stylesheet" href="~/css/Footer-Clean.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="~/css/index.css">
+    <link rel="stylesheet" href="~/css/Login-Form-Dark.css">
+    <link rel="stylesheet" href="~/css/Music.css">
+    <link rel="stylesheet" href="~/css/player.css">
+    <link rel="stylesheet" href="~/css/podcast.css">
+    <link rel="stylesheet" href="~/css/Pretty-Footer.css">
+    <link rel="stylesheet" href="~/css/Projects-Horizontal.css">
+    <link rel="stylesheet" href="~/css/Ranking.css">
+    <link rel="stylesheet" href="~/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="~/css/Search.css">
+    <style>
+        .booklist .img-fluid {
+            width: 150px; /* Đặt chiều rộng cố định */
+            height: 150px; /* Đặt chiều cao cố định */
+            object-fit: cover; /* Cắt hình ảnh để vừa khung */
+            border-radius: 10px; /* Bo tròn góc ảnh */
+            margin: 0 auto; /* Căn giữa ảnh */
+            display: block; /* Đảm bảo ảnh là block */
+        }
+    </style>
+</head>
+
+<body id="book">
+    <nav class="navbar navbar-dark navbar-expand-lg sticky-top bg-dark" id="mainNav" style="opacity: 1;">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav me-auto text-uppercase"></ul>
+                <ul class="navbar-nav text-uppercase">
+                    <li class="nav-item"><a class="nav-link" href="Home/Login.cshtml">đăng nhập</a></li>
+                    <li class="nav-item d-inline-block d-lg-flex justify-content-lg-center align-items-lg-center">
+                        <a class="btn btn-primary d-table" role="button" style="border-radius: 20px;" href="Signup.html">ĐĂNG KÝ</a>
+                    </li>
+                  <!--  <li class="nav-item"><a class="nav-link" href="Search.cshtml"><i class="fa fa-search"></i></a></li> -->
+                    <li class="nav-item"><a class="nav-link" href="Profile.html"><i class="fa fa-user"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Thanh tìm kiếm -->
+   <!-- Search bar section -->
+<section class="search-bar">
+    <div class="container">
+        <form class="d-flex" method="get" action="@Url.Action("SearchBook", "Home")">
+            <input class="form-control me-2" type="text" name="keyword" placeholder="Tìm kiếm theo tên sách hoặc tác giả" aria-label="Search">
+            <button class="btn btn-outline-primary" type="submit">Tìm kiếm</button>
+        </form>
+    </div>
+</section>
+
+    <section id="kindofbook">
+        <div class="container d-flex flex-column detailkindtop">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="text-uppercase section-headingbook">THỂ LOẠI SÁCH</h2>
+                </div>
+            </div>
+            <div class="row text-center d-flex flex-row justify-content-evenly align-items-stretch flex-wrap">
+                <!-- "All" option to display all books -->
+                <div class="col-md-3 d-flex flex-column col-book">
+                    <a class="booklink" href="@Url.Action("Book", "Home")">
+                        <div class="divbook">
+                            <span class="fa-stack fa-3x">
+                                <i class="fa fa-circle fa-stack-2x text-primary-book"></i>
+                                <i class="fa fa-book fa-stack-1x fa-inverse-book"></i>
+                            </span>
+                            <h4 class="section-heading-book">Tất cả</h4> <!-- "All" label -->
+                        </div>
+                    </a>
+                </div>
+                @foreach (var theloai in Model.Theloais) // Duyệt qua danh sách thể loại từ model
+                {
+                    <div class="col-md-3 d-flex flex-column col-book">
+                        <a class="booklink" href="@Url.Action("Book", new { categoryId = theloai.Id })">
+                            <div class="divbook">
+                                <span class="fa-stack fa-3x">
+                                    <i class="fa fa-circle fa-stack-2x text-primary-book"></i>
+                                    <i class="fa fa-book fa-stack-1x fa-inverse-book"></i>
+                                </span>
+                                <h4 class="section-heading-book">@theloai.Ten</h4> <!-- Tên thể loại -->
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+    <!-- Danh sách sách -->
+    <section class="bg-light mainbook" id="BooksByCategory">
+        <div class="container detailkind">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="text-uppercase section-heading">DANH SÁCH</h2>
+                    <h3 class="iconbook"><i class="fa fa-book icon"></i></h3>
+                </div>
+            </div>
+            <div class="row booklist">
+                @if (Model.Saches != null && Model.Saches.Any())
+                {
+                    @foreach (var sach in Model.Saches)
+                    {
+                        <div class="col-sm-5 col-md-3 bookdetail">
+                            <a class="portfolio-link" href="@Url.Action("BookDetail", "Home", new { id = sach.Id })">
+                                <img class="img-fluid" src="@Url.Content("~/img/" + sach.Anhbia)" alt="@sach.Ten">
+                            </a>
+                            <div class="booknameauthor">
+                                <h4 class="bookname">
+                                    <a href="@Url.Action("BookDetail", "Home", new { id = sach.Id })">@sach.Ten&nbsp;</a>
+                                </h4>
+                                <p class="author">@sach.Tacgia</p>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-center">Không tìm thấy sách nào phù hợp với từ khóa hoặc thể loại của bạn.</p>
+                }
+            </div>
+        </div>
+    </section>
+    
+    </footer>
+    <script src="~/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/js/bs-init.js"></script>
+    <script src="~/js/agency.js"></script>
+    <script src="~/js/book-lists.js"></script>
+    <script src="~/js/rating.js"></script>
+    <script src="~/js/script.js"></script>
+    <script src="~/js/Search.js"></script>
+</body>
+
+</html>

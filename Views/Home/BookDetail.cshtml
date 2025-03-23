@@ -1,0 +1,81 @@
+﻿@model doanchuyennganh.Models.Sach
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>@Model.Ten - Book Detail</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/book-detail.css">
+    <script defer src="~/js/book-detail.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark navbar-expand-lg sticky-top bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="@Url.Action("Book", "Home")">Quay lại</a>
+        </div>
+    </nav>
+
+    <section class="book-detail-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <!-- Hiển thị ảnh bìa sách -->
+                    <img src="@Url.Content("~/img/" + Model.Anhbia)" alt="@Model.Ten" class="img-fluid">
+                </div>
+                <div class="col-md-8">
+                    <div class="book-info">
+                        <h1>@Model.Ten</h1>
+                        <h4>@Model.Tacgia</h4>
+                        <p><strong>Thể Loại:</strong> @Model.Theloai.Ten</p>
+                        <div class="description">
+                            <h5>Mô Tả:</h5>
+                            <p>@Model.Mota</p>
+                        </div>
+                        <!-- Buttons -->
+                        <a href="@Url.Action("Reading", "Home", new { id = Model.Id })" class="btn btn-primary">Đọc Sách</a>
+                        <audio controls class="w-100 mt-3" src="@Url.Content(Model.Duongdan)" type="audio/mp3">
+                            Trình duyệt của bạn không hỗ trợ phát nhạc.
+                        </audio>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Cam On Vi Da Den</p>
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const audio = document.querySelector("audio");
+            const key = `audio_position_${audio.src}`;
+
+            // Phục hồi vị trí phát khi tải lại trang
+            const savedTime = localStorage.getItem(key);
+            if (savedTime) {
+                audio.currentTime = parseFloat(savedTime);
+            }
+
+            // Lưu vị trí phát hiện tại vào localStorage
+            audio.addEventListener("timeupdate", function () {
+                localStorage.setItem(key, audio.currentTime);
+            });
+
+            // Xóa vị trí khi bài nhạc kết thúc
+            audio.addEventListener("ended", function () {
+                localStorage.removeItem(key);
+            });
+        });
+    </script>
+
+    <script src="~/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>

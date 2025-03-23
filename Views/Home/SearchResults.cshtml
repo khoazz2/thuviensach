@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Sach>
+
+<section id="search-results" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Kết quả tìm kiếm</h2>
+        @if (Model.Any())
+        {
+            <div class="row booklist">
+                @foreach (var sach in Model)
+                {
+                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <a class="portfolio-link" href="@Url.Action("BookDetail", "Home", new { id = sach.Id })">
+                                <img class="card-img-top img-fluid" src="@Url.Content("~/img/" + sach.Anhbia)" alt="@sach.Ten">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="@Url.Action("BookDetail", "Home", new { id = sach.Id })" class="text-dark">@sach.Ten</a>
+                                </h5>
+                                <p class="card-text text-muted">@sach.Tacgia</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-center text-muted">Không tìm thấy sách nào phù hợp với từ khóa của bạn.</p>
+        }
+    </div>
+</section>
+
+<style>
+    #search-results {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        border: none;
+        transition: transform 0.2s;
+    }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+    .card-img-top {
+        border-top-left-radius: calc(0.25rem - 1px);
+        border-top-right-radius: calc(0.25rem - 1px);
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-title a {
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+    }
+</style>
